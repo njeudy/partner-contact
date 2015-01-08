@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="add_prospect_in_form_view" model="ir.ui.view">
+            <field name="name">Add prospect in form view</field>
+            <field name="model">res.partner</field>
+            <field name="priority">25</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+                <xpath
+                    expr="//form[@string='Partners']//page[@name='sales_purchases']//field[@name='customer']"
+                    position="before">
+                    <field name="prospect"/>
+                    </xpath>
+
+                    <xpath expr="//form[@string='Contact']//field[@name='customer']"
+                        position="before">
+                        <field name="prospect"/>
+                    </xpath>
+
+                    <xpath expr="//button[contains(@class,'oe_stat_button')][.//field[@name='opportunity_count']]" position="attributes">
+                        <attribute name="attrs">{'invisible': ['&amp;',('customer', '=', False),('prospect', '=', False)]}</attribute>
+                    </xpath>
+
+                </field>
+            </record>
+    </data>
+</openerp>

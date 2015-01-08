@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+  <data>
+    <record id="view_res_partner_filter_inherit_prospect" model="ir.ui.view">
+      <field name="name">res.partner.select_inherit_prospect</field>
+      <field name="active" eval="True"/>
+      <field name="arch" type="xml">
+        <search string="Search Partner">
+          <field name="name" filter_domain="['|','|',('display_name','ilike',self),('ref','=',self),('email','ilike',self)]"/>
+          <filter help="My Partners" icon="terp-personal+" domain="[('user_id','=',uid)]"/>
+          <separator/>
+          <filter string="Persons" name="type_person" domain="[('is_company','=',0)]"/>
+          <filter string="Companies" name="type_company" domain="[('is_company','=',1)]"/>
+          <separator/>
+          <filter string="Prospects" name="prospect" domain="[('prospect','=',1)]" help="Prospect Partners"/>
+          <separator/>
+          <field name="category_id" string="Tag" filter_domain="[('category_id','ilike', self)]"/>
+          <field name="user_id"/>
+          <field name="parent_id" domain="[('is_company','=',1)]" operator="child_of"/>
+          <group expand="0" string="Group By">
+            <filter string="Salesperson" icon="terp-personal" domain="[]" context="{'group_by' : 'user_id'}"/>
+            <filter string="Company" context="{'group_by': 'parent_id'}"/>
+            <filter string="Country" context="{'group_by': 'country_id'}"/>
+          </group>
+        </search>
+      </field>
+      <field name="mode">primary</field>
+      <field name="model">res.partner</field>
+      <field name="priority">16</field>
+      <field name="type">search</field>
+    </record>
+  </data>
+</openerp>
